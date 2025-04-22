@@ -5,21 +5,16 @@ import Webcam from "react-webcam";
 import { Lightbulb, WebcamIcon } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
 import { db } from "../../../../utils/db";
 import { MockInterview } from "../../../../utils/schema";
 import { eq } from "drizzle-orm";
 
-// Optional: use RecordAnswerSection if needed here
-// const RecordAnswerSection = dynamic(() => import("./start/_components/RecordAnswerSection"), { ssr: false });
-
 export default function Interview({ params }) {
   const interviewId = params.interviewId;
-  const [interview, setInterview] = useState();
+  const [interview, setInterview] = useState(null);
   const [webcam, setWebcam] = useState(false);
 
-  const GetInterviewDetails = async () => {
+  const getInterviewDetails = async () => {
     const result = await db
       .select()
       .from(MockInterview)
@@ -29,7 +24,7 @@ export default function Interview({ params }) {
 
   useEffect(() => {
     if (interviewId) {
-      GetInterviewDetails();
+      getInterviewDetails();
     }
   }, [interviewId]);
 
@@ -46,23 +41,24 @@ export default function Interview({ params }) {
         <div className="flex flex-col my-5 gap-5">
           <div className="flex flex-col p-5 rounded-lg border">
             <h2 className="text-lg">
-              <strong>Job Role/Job Position:</strong> {interview.jobPosition}
+              <strong>Job Role/Position:</strong> {interview.jobPosition}
             </h2>
             <h2 className="text-lg">
-              <strong>Job Description/Tech Stack:</strong> {interview.jobDesc}
+              <strong>Tech Stack:</strong> {interview.jobDesc}
             </h2>
             <h2 className="text-lg">
-              <strong>Years of Experience:</strong> {interview.jobExperience}
+              <strong>Experience:</strong> {interview.jobExperience} years
             </h2>
           </div>
+
           <div className="p-5 border rounded-lg border-yellow-300 bg-yellow-100">
-            <h2 className="flex gap-2 items-centre text-yellow-500">
+            <h2 className="flex gap-2 items-center text-yellow-500 font-semibold">
               <Lightbulb />
-              <strong>Information</strong>
+              <span>Information</span>
             </h2>
-            <h2 className="mt-3 text-yellow-500">
-              {process.env.NEXT_PUBLIC_INFORMATION}
-            </h2>
+            <p className="mt-3 text-yellow-500 text-sm">
+              {process.env.NEXT_PUBLIC_INFORMATION || "Make sure your camera and mic are working properly."}
+            </p>
           </div>
         </div>
 
@@ -86,7 +82,7 @@ export default function Interview({ params }) {
                 className="w-full"
                 onClick={() => setWebcam(true)}
               >
-                Enable Web Cam and Microphone
+                Enable Webcam & Microphone
               </Button>
             </>
           )}
@@ -94,8 +90,8 @@ export default function Interview({ params }) {
       </div>
 
       {/* Start Button */}
-      <div className="flex justify-end items-end mt-10">
-        <Link href={`/dashboard/interview/${interview.interviewId}/start`}>
+      <div className="flex justify-end mt-10">
+        <Link href={`/dashboard/interview/${interview.mockId}/start`}>
           <Button>Start Interview</Button>
         </Link>
       </div>

@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "utils/GeminiAIModal.js"  ],
+, "utils/GeminiAIModal.js", "app/dashboard/interview/[interviewId]/feedback/page.tsx", "app/dashboard/_components/AddNewinterview.jsx"  ],
   "exclude": [
     "node_modules"
   ]
