@@ -11,7 +11,7 @@ import { chatSession } from "../../../../../../utils/GeminiAIModel.js";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { db } from "../../../../../../utils/db";
-import { schema } from "../../../../../../utils/schema"; // ✅ make sure this path is correct
+import { schema } from "../../../../../../utils/schema"; // ✅ make sure this path is correct for the import
 
 export default function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, interview }) {
   const [userAnswer, setUserAnswer] = useState("");
